@@ -4,15 +4,17 @@ import "./App.css";
 import Todos from "./components/Todos";
 import Header from "./components/layout/Header";
 import AddTodo from "./components/AddTodo";
-import { v4 as uuidv4 } from "uuid";
 import About from "./components/pages/about";
 import axios from "axios";
+import config from "./config";
 class App extends Component {
   state = {
     todos: [],
   };
+
+  BASE_URL = config.BASE_URL;
   componentDidMount() {
-    axios.get("http://127.0.0.1:8000/api/todos/").then((res) => {
+    axios.get(`${this.BASE_URL}todos/`).then((res) => {
       this.setState({
         todos: res.data,
       });
@@ -21,7 +23,7 @@ class App extends Component {
   // Toggle Complete
   markComplete = (todo) => {
     axios
-      .patch(`http://127.0.0.1:8000/api/todos/${todo.id}/`, {
+      .patch(`${this.BASE_URL}todos/${todo.id}/`, {
         completed: !todo.completed,
       })
       .then((res) => {
@@ -36,7 +38,7 @@ class App extends Component {
       });
   };
   delTodo = (id) => {
-    axios.delete(`http://127.0.0.1:8000/api/todos/${id}/`);
+    axios.delete(`${this.BASE_URL}todos/${id}/`);
     this.setState({
       todos: [...this.state.todos.filter((todo) => todo.id !== id)],
     });
@@ -45,7 +47,7 @@ class App extends Component {
     const newTodo = {
       title,
     };
-    axios.post("http://127.0.0.1:8000/api/todos/", newTodo).then((res) => {
+    axios.post(`${this.BASE_URL}todos/`, newTodo).then((res) => {
       this.setState({ todos: [...this.state.todos, res.data] });
     });
   };

@@ -25,11 +25,5 @@ const linkStyle = {
   color: "#fff",
   textDecoration: "none",
 };
-const border = {
-  color: "#fff",
-  textDecoration: "none",
-  borderRight: "2px solid #fff",
-  padding: "10px",
-};
 
 export default Header;
