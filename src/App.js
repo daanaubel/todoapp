@@ -4,12 +4,13 @@ import "./App.css";
 import Todos from "./components/Todos";
 import Header from "./components/layout/Header";
 import AddTodo from "./components/AddTodo";
-import About from "./components/pages/about";
 import axios from "axios";
 import config from "./config";
+import ShowTodosButton from "./components/ShowTodosButton";
 class App extends Component {
   state = {
     todos: [],
+    showCompletedTodos: true,
   };
 
   BASE_URL = config.BASE_URL;
@@ -20,6 +21,17 @@ class App extends Component {
       });
     });
   }
+  toggleCompletedTodos = () => {
+    if (this.state.showCompletedTodos === true) {
+      this.setState({
+        showCompletedTodos: false,
+      });
+    } else {
+      this.setState({
+        showCompletedTodos: true,
+      });
+    }
+  };
   // Toggle Complete
   markComplete = (todo) => {
     axios
@@ -52,6 +64,8 @@ class App extends Component {
     });
   };
   render() {
+    const openTodos = this.state.todos.filter((todo) => !todo.completed);
+    const completedTodos = this.state.todos.filter((todo) => todo.completed);
     return (
       <Router>
         <div className="App">
@@ -64,14 +78,26 @@ class App extends Component {
                 <React.Fragment>
                   <AddTodo addTodo={this.addTodo} />
                   <Todos
-                    todos={this.state.todos}
+                    todos={openTodos}
                     markComplete={this.markComplete}
                     delTodo={this.delTodo}
+                    showCompletedTodos={this.state.showCompletedTodos}
                   />
+                  <ShowTodosButton
+                    show={this.state.showCompletedTodos}
+                    onClick={this.toggleCompletedTodos}
+                  />
+                  {this.state.showCompletedTodos && (
+                    <Todos
+                      todos={completedTodos}
+                      markComplete={this.markComplete}
+                      delTodo={this.delTodo}
+                      showCompletedTodos={this.state.showCompletedTodos}
+                    />
+                  )}
                 </React.Fragment>
               )}
             />
-            <Route path="/about" component={About} />
           </div>
         </div>
       </Router>
