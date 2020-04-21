@@ -7,6 +7,7 @@ import AddTodo from "./components/AddTodo";
 import axios from "axios";
 import config from "./config";
 import ShowTodosButton from "./components/ShowTodosButton";
+import DelAllTodo from "./DelAllTodo";
 class App extends Component {
   state = {
     todos: [],
@@ -32,6 +33,7 @@ class App extends Component {
       });
     }
   };
+
   // Toggle Complete
   markComplete = (todo) => {
     axios
@@ -48,6 +50,12 @@ class App extends Component {
           }),
         });
       });
+  };
+  delAllCompletedTodos = () => {
+    axios.delete(`${this.BASE_URL}todos/}`);
+    this.setState({
+      todos: [...this.state.todos.filter((todo) => !todo.completed)],
+    });
   };
   delTodo = (id) => {
     axios.delete(`${this.BASE_URL}todos/${id}/`);
@@ -66,6 +74,7 @@ class App extends Component {
   render() {
     const openTodos = this.state.todos.filter((todo) => !todo.completed);
     const completedTodos = this.state.todos.filter((todo) => todo.completed);
+    const existCompletedTodos = this.state.todos.some((todo) => todo.completed);
     return (
       <Router>
         <div className="App">
@@ -83,17 +92,24 @@ class App extends Component {
                     delTodo={this.delTodo}
                     showCompletedTodos={this.state.showCompletedTodos}
                   />
-                  <ShowTodosButton
-                    show={this.state.showCompletedTodos}
-                    onClick={this.toggleCompletedTodos}
-                  />
-                  {this.state.showCompletedTodos && (
-                    <Todos
-                      todos={completedTodos}
-                      markComplete={this.markComplete}
-                      delTodo={this.delTodo}
-                      showCompletedTodos={this.state.showCompletedTodos}
+                  {existCompletedTodos && (
+                    <ShowTodosButton
+                      show={this.state.showCompletedTodos}
+                      onClick={this.toggleCompletedTodos}
                     />
+                  )}
+                  {this.state.showCompletedTodos && (
+                    <React.Fragment>
+                      <Todos
+                        todos={completedTodos}
+                        markComplete={this.markComplete}
+                        delTodo={this.delTodo}
+                        showCompletedTodos={this.state.showCompletedTodos}
+                      />
+                      {existCompletedTodos && (
+                        <DelAllTodo onClick={this.delAllCompletedTodos} />
+                      )}
+                    </React.Fragment>
                   )}
                 </React.Fragment>
               )}
@@ -104,5 +120,4 @@ class App extends Component {
     );
   }
 }
-
 export default App;
