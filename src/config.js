@@ -6,4 +6,4 @@ const dev = {
 };
 const config = process.env.REACT_APP_STAGE === "production" ? prod : dev;
 
-export default prod;
+export default config;
