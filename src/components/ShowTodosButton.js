@@ -1,18 +1,19 @@
 import React, { Component } from "react";
+import Button from "@material-ui/core/Button";
 
 export class ShowTodosButton extends Component {
   render() {
     return (
-      <button onClick={this.props.onClick} style={buttonStyle}>
+      <Button onClick={this.props.onClick} color="primary">
         {this.props.show ? "verberg afgeronden taken" : "Toon afgeronden taken"}
-      </button>
+      </Button>
     );
   }
 }
-const buttonStyle = {
-  borderRadius: "16px",
-  background: "white",
-  borderColor: "black",
-};
+// const buttonStyle = {
+//   borderRadius: "16px",
+//   background: "white",
+//   borderColor: "black",
+// };
 
 export default ShowTodosButton;

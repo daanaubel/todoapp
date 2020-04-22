@@ -8,10 +8,11 @@ import axios from "axios";
 import config from "./config";
 import ShowTodosButton from "./components/ShowTodosButton";
 import DelAllTodo from "./DelAllTodo";
+// import Datepicker from "./Datepicker";
 class App extends Component {
   state = {
     todos: [],
-    showCompletedTodos: true,
+    showCompletedTodos: false,
   };
 
   BASE_URL = config.BASE_URL;
@@ -52,7 +53,7 @@ class App extends Component {
       });
   };
   delAllCompletedTodos = () => {
-    axios.delete(`${this.BASE_URL}todos/}`);
+    axios.delete(`${this.BASE_URL}todos/completed/`);
     this.setState({
       todos: [...this.state.todos.filter((todo) => !todo.completed)],
     });

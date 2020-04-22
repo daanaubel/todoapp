@@ -1,18 +1,22 @@
 import React, { Component } from "react";
-
+import Button from "@material-ui/core/Button";
 export class DelAllTodo extends Component {
   render() {
     return (
-      <button onClick={this.props.onClick} style={buttonStyle}>
+      <Button
+        onClick={this.props.onClick}
+        variant="contained"
+        color="secondary"
+      >
         verwijder alle afgeronden taken
-      </button>
+      </Button>
     );
   }
 }
-const buttonStyle = {
-  borderRadius: "5px",
-  background: "red",
-  color: "black",
-};
+// const buttonStyle = {
+//   borderRadius: "5px",
+//   background: "red",
+//   color: "black",
+// };
 
 export default DelAllTodo;
