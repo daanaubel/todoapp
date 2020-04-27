@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TextField, Box, Button } from "@material-ui/core";
+import { Box, Button } from "@material-ui/core";
 import AddSharpIcon from "@material-ui/icons/AddSharp";
 import AddTodoDialog from "./AddTodoDialog";
 
