@@ -17,7 +17,7 @@ export default class login extends Component {
       password: this.state.password,
     };
     axios
-      .post(`${this.BASE_URL}auth/Login`, newLogin)
+      .post(`${this.BASE_URL}auth/login`, newLogin)
       .then((res) => {
         this.props.login(res.data.user, res.data.token);
       })
