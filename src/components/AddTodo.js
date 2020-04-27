@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { TextField, Box, Button } from "@material-ui/core";
+import AddSharpIcon from "@material-ui/icons/AddSharp";
+import AddTodoDialog from "./AddTodoDialog";
 
 export class AddTodo extends Component {
   state = {
@@ -13,19 +16,21 @@ export class AddTodo extends Component {
   render() {
     return (
       <form onSubmit={this.onSubmit} style={{ display: "flex" }}>
-        <input
-          type="text"
-          name="title"
-          style={{ flex: "10", padding: "5px" }}
-          placeholder="Add Todo ... "
-          value={this.state.title}
-          onChange={this.onChange}
-        />
-        <input
-          type="submit"
-          value="Submit"
-          className="btn"
-          style={{ flex: "1" }}
+        <Box my={2}>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            onClick={this.props.onClick}
+            startIcon={<AddSharpIcon />}
+          >
+            Add todo
+          </Button>
+        </Box>
+        <AddTodoDialog
+          open={this.props.isAdd}
+          handleClose={this.props.handleClose}
+          addTodo={this.props.addTodo}
         />
       </form>
     );

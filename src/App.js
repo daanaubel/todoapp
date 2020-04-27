@@ -1,122 +1,57 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import "./App.css";
-import Todos from "./components/Todos";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import Login from "./components/accounts/Login";
+import Register from "./components/accounts/Register";
 import Header from "./components/layout/Header";
-import AddTodo from "./components/AddTodo";
+import PrivateRoute from "./components/PrivateRoute";
+import Todolist from "./components/Todolist";
+import { CssBaseline, Container } from "@material-ui/core";
 import axios from "axios";
-import config from "./config";
-import ShowTodosButton from "./components/ShowTodosButton";
-import DelAllTodo from "./DelAllTodo";
+import BASE_URL from "./config";
 // import Datepicker from "./Datepicker";
 class App extends Component {
   state = {
-    todos: [],
-    showCompletedTodos: false,
+    token: localStorage.getItem("token"),
+    isAuthenticated: null,
+    user: null,
   };
 
-  BASE_URL = config.BASE_URL;
-  componentDidMount() {
-    axios.get(`${this.BASE_URL}todos/`).then((res) => {
-      this.setState({
-        todos: res.data,
-      });
-    });
-  }
-  toggleCompletedTodos = () => {
-    if (this.state.showCompletedTodos === true) {
-      this.setState({
-        showCompletedTodos: false,
-      });
-    } else {
-      this.setState({
-        showCompletedTodos: true,
-      });
-    }
+  login = (user, token) => {
+    this.setState({ user, token, isAuthenticated: true });
+    localStorage.setItem("token", token);
   };
-
-  // Toggle Complete
-  markComplete = (todo) => {
-    axios
-      .patch(`${this.BASE_URL}todos/${todo.id}/`, {
-        completed: !todo.completed,
-      })
-      .then((res) => {
-        this.setState({
-          todos: this.state.todos.map((todo) => {
-            if (todo.id === res.data.id) {
-              todo.completed = !todo.completed;
-            }
-            return todo;
-          }),
-        });
-      });
-  };
-  delAllCompletedTodos = () => {
-    axios.delete(`${this.BASE_URL}todos/completed/`);
-    this.setState({
-      todos: [...this.state.todos.filter((todo) => !todo.completed)],
-    });
-  };
-  delTodo = (id) => {
-    axios.delete(`${this.BASE_URL}todos/${id}/`);
-    this.setState({
-      todos: [...this.state.todos.filter((todo) => todo.id !== id)],
-    });
-  };
-  addTodo = (title) => {
-    const newTodo = {
-      title,
-    };
-    axios.post(`${this.BASE_URL}todos/`, newTodo).then((res) => {
-      this.setState({ todos: [...this.state.todos, res.data] });
-    });
+  logout = () => {
+    this.setState({ isAuthenticated: false });
+    axios.post(`${BASE_URL}/logout`);
   };
   render() {
-    const openTodos = this.state.todos.filter((todo) => !todo.completed);
-    const completedTodos = this.state.todos.filter((todo) => todo.completed);
-    const existCompletedTodos = this.state.todos.some((todo) => todo.completed);
     return (
       <Router>
-        <div className="App">
-          <div className="container">
-            <Header />
-            <Route
+        <CssBaseline />
+        {this.state.isAuthenticated && <Header onClick={this.logout} />}
+        <Container maxWidth="sm">
+          <Switch>
+            <PrivateRoute
               exact
               path="/"
-              render={(props) => (
-                <React.Fragment>
-                  <AddTodo addTodo={this.addTodo} />
-                  <Todos
-                    todos={openTodos}
-                    markComplete={this.markComplete}
-                    delTodo={this.delTodo}
-                    showCompletedTodos={this.state.showCompletedTodos}
-                  />
-                  {existCompletedTodos && (
-                    <ShowTodosButton
-                      show={this.state.showCompletedTodos}
-                      onClick={this.toggleCompletedTodos}
-                    />
-                  )}
-                  {this.state.showCompletedTodos && (
-                    <React.Fragment>
-                      <Todos
-                        todos={completedTodos}
-                        markComplete={this.markComplete}
-                        delTodo={this.delTodo}
-                        showCompletedTodos={this.state.showCompletedTodos}
-                      />
-                      {existCompletedTodos && (
-                        <DelAllTodo onClick={this.delAllCompletedTodos} />
-                      )}
-                    </React.Fragment>
-                  )}
-                </React.Fragment>
+              component={Todolist}
+              token={this.state.token}
+              isAuthenticated={this.state.isAuthenticated}
+            />
+            <Route exact path="/register" component={Register} />
+
+            <Route
+              exact
+              path="/login"
+              render={() => (
+                <Login
+                  login={this.login}
+                  isAuthenticated={this.state.isAuthenticated}
+                />
               )}
             />
-          </div>
-        </div>
+          </Switch>
+        </Container>
       </Router>
     );
   }

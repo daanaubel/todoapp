@@ -4,6 +4,7 @@ export class DelAllTodo extends Component {
   render() {
     return (
       <Button
+        style={{ marginTop: "5px" }}
         onClick={this.props.onClick}
         variant="contained"
         color="secondary"

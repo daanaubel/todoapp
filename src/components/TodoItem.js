@@ -21,9 +21,12 @@ export class Todoitem extends Component {
     return (
       <Box
         onClick={this.onClick}
-        border="2px solid gray"
+        border="1px solid gray"
+        borderTop={0}
         display="flex"
         justifyContent="flex-end"
+        width="100%"
+        paddingLeft={2}
       >
         <Box flexGrow={1} textAlign="left">
           <FormControlLabel
