@@ -6,6 +6,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { Box } from "@material-ui/core";
+import EditTodoDialog from "./EditTodoDialog";
 
 export class Todoitem extends Component {
   getStyle = () => {
@@ -41,8 +42,8 @@ export class Todoitem extends Component {
             label={title}
           />
         </Box>
-        <Box display="none" mx={0}>
-          <IconButton>
+        <Box mx={0}>
+          <IconButton onClick={this.props.openEditTodoDialog}>
             <EditIcon />
           </IconButton>
         </Box>
@@ -50,6 +51,12 @@ export class Todoitem extends Component {
           <IconButton onClick={this.props.delTodo.bind(this, id)}>
             <DeleteIcon />
           </IconButton>
+          <EditTodoDialog
+            open={this.props.isEdit}
+            handleClose={this.props.handleClose}
+            editTodo={this.props.editTodo}
+            todo={this.props.todo}
+          />
         </Box>
       </Box>
     );

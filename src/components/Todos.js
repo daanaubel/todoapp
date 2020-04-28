@@ -9,6 +9,10 @@ class Todos extends Component {
         todo={todo}
         markComplete={() => this.props.markComplete(todo)}
         delTodo={this.props.delTodo}
+        openEditTodoDialog={() => this.props.openEditTodoDialog(todo)}
+        handleClose={() => this.props.handleClose()}
+        isEdit={this.props.isEdit}
+        editTodo={this.props.editTodo}
       />
     ));
   }

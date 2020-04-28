@@ -12,6 +12,7 @@ export class Todolist extends Component {
     todos: [],
     showCompletedTodos: false,
     isAdd: false,
+    isEdit: false,
   };
   tokenConfig = {
     headers: {
@@ -73,7 +74,7 @@ export class Todolist extends Component {
   openAddTodoDialog = (title) => {
     this.setState({ isAdd: true });
   };
-  handleClose = () => {
+  handleCloseAddTodo = () => {
     this.setState({ isAdd: false });
   };
   addTodo = (title) => {
@@ -87,6 +88,26 @@ export class Todolist extends Component {
         this.setState({ todos: [...this.state.todos, res.data] });
       });
   };
+  editTodo = (newTodo) => {
+    axios
+      .put(`${this.BASE_URL}todos/${newTodo.id}/`, newTodo, this.tokenConfig)
+      .then((res) => {
+        let newTodos = this.state.todos;
+        newTodos = newTodos.map((todo) =>
+          todo.id === newTodo.id ? { ...newTodo } : { ...todo }
+        );
+        this.setState({
+          todos: [...newTodos],
+        });
+      });
+  };
+  openEditTodoDialog = () => {
+    this.setState({ isEdit: true });
+  };
+  handleCloseEditTodo = () => {
+    this.setState({ isEdit: false });
+  };
+
   render() {
     const openTodos = this.state.todos.filter((todo) => !todo.completed);
     const completedTodos = this.state.todos.filter((todo) => todo.completed);
@@ -98,11 +119,15 @@ export class Todolist extends Component {
           markComplete={this.markComplete}
           delTodo={this.delTodo}
           showCompletedTodos={this.state.showCompletedTodos}
+          openEditTodoDialog={this.openEditTodoDialog}
+          isEdit={this.state.isEdit}
+          handleClose={this.handleCloseEditTodo}
+          editTodo={(todo) => this.editTodo(todo)}
         />
         <AddTodo
           onClick={this.openAddTodoDialog}
           isAdd={this.state.isAdd}
-          handleClose={this.handleClose}
+          handleClose={this.handleCloseAddTodo}
           addTodo={this.addTodo}
         />
         {existCompletedTodos && (

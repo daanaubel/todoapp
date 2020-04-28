@@ -5,6 +5,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
+import Datepicker from "../Datepicker";
 
 export default class AddTodoDialog extends Component {
   state = {
@@ -45,6 +46,7 @@ export default class AddTodoDialog extends Component {
             onChange={this.onChange}
             fullWidth
           />
+          <Datepicker />
         </DialogContent>
         <DialogActions>
           <Button onClick={this.handleClose} color="secondary">
