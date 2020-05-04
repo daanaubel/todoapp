@@ -6,8 +6,10 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DatePicker from "../Datepicker";
+import { editTodo } from "../actions/todos";
+import { connect } from "react-redux";
 
-export default class EditTodoDialog extends Component {
+class EditTodoDialog extends Component {
   state = {
     todo: {},
   };
@@ -65,3 +67,4 @@ export default class EditTodoDialog extends Component {
     );
   }
 }
+export default connect(null, { editTodo })(EditTodoDialog);

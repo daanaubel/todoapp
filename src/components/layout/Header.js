@@ -1,15 +1,28 @@
-import React from "react";
+import React, { Component } from "react";
 import { Button } from "@material-ui/core";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { logout } from "../../actions/auth";
 
-function Header(props) {
-  return (
-    <header style={headerStyle}>
-      <h1>Todolist</h1>
-      <Button style={headerStyle} onClick={props.onClick}>
-        Logout
-      </Button>
-    </header>
-  );
+export class Header extends Component {
+  static propTypes = {
+    auth: PropTypes.object.isRequired,
+    logout: PropTypes.func.isRequired,
+  };
+  render() {
+    const { isAuthenticated } = this.props.auth;
+
+    return (
+      isAuthenticated && (
+        <header style={headerStyle}>
+          <h1>Todolist</h1>
+          <Button style={headerStyle} onClick={this.props.logout}>
+            Logout
+          </Button>
+        </header>
+      )
+    );
+  }
 }
 const headerStyle = {
   background: "#333",
@@ -17,4 +30,7 @@ const headerStyle = {
   textAlign: "center",
   padding: "10px",
 };
-export default Header;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+export default connect(mapStateToProps, { logout })(Header);

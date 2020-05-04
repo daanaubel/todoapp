@@ -1,0 +1,12 @@
+export const GET_TODOS = "GET_TODOS";
+export const MARK_COMPLETE = "MARK_COMPLETE";
+export const USER_LOADED = "USER_LOADED";
+export const REGISTER_SUCCES = "REGISTER_SUCCES";
+export const REGISTER_FAIL = "REGISTER_FAIL";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAIL = "LOGIN_FAIL";
+export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+export const LOGOUT_FAIL = "LOGOUT_FAIL";
+export const DEL_TODO = "DEL_TODO";
+export const ADD_TODO = "ADD_TODO";
+export const EDIT_TODO = "EDIT_TODO";

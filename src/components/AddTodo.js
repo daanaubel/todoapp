@@ -30,7 +30,6 @@ export class AddTodo extends Component {
         <AddTodoDialog
           open={this.props.isAdd}
           handleClose={this.props.handleClose}
-          addTodo={this.props.addTodo}
         />
       </form>
     );

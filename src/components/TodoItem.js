@@ -7,6 +7,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { Box } from "@material-ui/core";
 import EditTodoDialog from "./EditTodoDialog";
+import { connect } from "react-redux";
+import { markComplete, delTodo } from "../actions/todos";
 
 export class Todoitem extends Component {
   getStyle = () => {
@@ -18,7 +20,7 @@ export class Todoitem extends Component {
     };
   };
   render() {
-    const { id, title, completed } = this.props.todo;
+    const { id, title, date, completed } = this.props.todo;
     return (
       <Box
         onClick={this.onClick}
@@ -34,12 +36,12 @@ export class Todoitem extends Component {
             control={
               <Checkbox
                 checked={completed}
-                onChange={() => this.props.markComplete()}
+                onChange={() => this.props.markComplete(this.props.todo)}
                 name="checkedB"
                 color="primary"
               />
             }
-            label={title}
+            label={title + date}
           />
         </Box>
         <Box mx={0}>
@@ -48,14 +50,14 @@ export class Todoitem extends Component {
           </IconButton>
         </Box>
         <Box ml={0}>
-          <IconButton onClick={this.props.delTodo.bind(this, id)}>
+          <IconButton onClick={() => this.props.delTodo(id)}>
             <DeleteIcon />
           </IconButton>
           <EditTodoDialog
             open={this.props.isEdit}
             handleClose={this.props.handleClose}
-            editTodo={this.props.editTodo}
             todo={this.props.todo}
+            inClick={this.props.openEditTodoDialog}
           />
         </Box>
       </Box>
@@ -63,16 +65,7 @@ export class Todoitem extends Component {
   }
 }
 Todoitem.propTypes = {
-  todos: PropTypes.object.isRequired,
+  todo: PropTypes.object.isRequired,
 };
-// const btnStyle = {
-//   background: "#ff0000",
-//   color: "#fff",
-//   border: "none",
-//   padding: "5px 10px",
-//   borderRadius: "50%",
-//   cursor: "pointer",
-//   float: "right",
-// };
 
-export default Todoitem;
+export default connect(null, { markComplete, delTodo })(Todoitem);

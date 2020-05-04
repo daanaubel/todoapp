@@ -5,20 +5,34 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
-import Datepicker from "../Datepicker";
-
-export default class AddTodoDialog extends Component {
+import DatePicker from "../Datepicker";
+import DateFnsUtils from "@date-io/date-fns";
+import { addTodo } from "../actions/todos";
+import {
+  MuiPickersUtilsProvider,
+  // KeyboardTimePicker,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+import { connect } from "react-redux";
+class AddTodoDialog extends Component {
   state = {
     title: "",
+    dueDate: "",
   };
   onClick = () => {
-    this.props.addTodo(this.state.title);
+    const newTodo = this.state;
+    this.props.addTodo(newTodo);
     this.handleClose();
   };
   onChange = (e) => {
     e.preventDefault();
     this.setState({
-      title: e.target.value,
+      [e.target.name]: e.target.value,
+    });
+  };
+  setDate = (date) => {
+    this.setState({
+      dueDate: date,
     });
   };
   handleClose = () => {
@@ -39,14 +53,18 @@ export default class AddTodoDialog extends Component {
           <TextField
             autoFocus
             margin="dense"
-            id="name"
             label="Add todo..."
             type="text"
             value={this.state.title}
             onChange={this.onChange}
             fullWidth
+            name="title"
           />
-          <Datepicker />
+          <DatePicker
+            name="dueDate"
+            onChange={this.setDate}
+            value={this.state.dueDate}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={this.handleClose} color="secondary">
@@ -60,3 +78,4 @@ export default class AddTodoDialog extends Component {
     );
   }
 }
+export default connect(null, { addTodo })(AddTodoDialog);

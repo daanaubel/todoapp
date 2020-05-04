@@ -1,29 +1,23 @@
+import { Box, Button, Container, Paper, TextField } from "@material-ui/core";
+import PropTypes from "prop-types";
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
-import { Paper, Box, Button, TextField, Container } from "@material-ui/core";
-import axios from "axios";
-import config from "../../config";
-export default class login extends Component {
+import { login } from "../../actions/auth";
+
+class Login extends Component {
   state = {
     username: "",
     password: "",
   };
-  BASE_URL = config.BASE_URL;
+  static propTypes = {
+    login: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool,
+  };
 
   onSubmit = (e) => {
     e.preventDefault();
-    const newLogin = {
-      username: this.state.username,
-      password: this.state.password,
-    };
-    axios
-      .post(`${this.BASE_URL}auth/login`, newLogin)
-      .then((res) => {
-        this.props.login(res.data.user, res.data.token);
-      })
-      .catch((err) => {
-        console.log(err.response);
-      });
+    this.props.login(this.state.username, this.state.password);
   };
 
   onChange = (e) => this.setState({ [e.target.name]: e.target.value });
@@ -71,3 +65,7 @@ export default class login extends Component {
     );
   }
 }
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+export default connect(mapStateToProps, { login })(Login);
