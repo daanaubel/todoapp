@@ -11,6 +11,9 @@ import { connect } from "react-redux";
 import { markComplete, delTodo } from "../actions/todos";
 
 export class Todoitem extends Component {
+  state = {
+    isEdit: false,
+  };
   getStyle = () => {
     return {
       background: "#f4f4f4",
@@ -18,6 +21,13 @@ export class Todoitem extends Component {
       borderBottom: "1px #ccc dotted",
       textDecoration: this.props.todo.completed ? "line-through" : "none",
     };
+  };
+
+  openEditTodoDialog = () => {
+    this.setState({ isEdit: true });
+  };
+  handleClose = () => {
+    this.setState({ isEdit: false });
   };
   render() {
     const { id, title, date, completed } = this.props.todo;
@@ -45,7 +55,7 @@ export class Todoitem extends Component {
           />
         </Box>
         <Box mx={0}>
-          <IconButton onClick={this.props.openEditTodoDialog}>
+          <IconButton onClick={this.openEditTodoDialog}>
             <EditIcon />
           </IconButton>
         </Box>
@@ -54,10 +64,10 @@ export class Todoitem extends Component {
             <DeleteIcon />
           </IconButton>
           <EditTodoDialog
-            open={this.props.isEdit}
-            handleClose={this.props.handleClose}
+            open={this.state.isEdit}
+            handleClose={this.handleClose}
             todo={this.props.todo}
-            inClick={this.props.openEditTodoDialog}
+            onClick={this.openEditTodoDialog}
           />
         </Box>
       </Box>

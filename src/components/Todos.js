@@ -9,8 +9,6 @@ export class Todos extends Component {
         key={todo.id}
         todo={todo}
         handleClose={() => this.props.handleClose()}
-        isEdit={this.props.isEdit}
-        openEditTodoDialog={this.props.openEditTodoDialog}
       />
     ));
   }

@@ -13,7 +13,6 @@ export class Todolist extends Component {
   state = {
     showCompletedTodos: false,
     isAdd: false,
-    isEdit: false,
   };
   tokenConfig = {
     headers: {
@@ -38,23 +37,18 @@ export class Todolist extends Component {
     }
   };
 
-  delAllCompletedTodos = () => {
-    axios.delete(`${this.BASE_URL}todos/completed/`, this.tokenConfig);
-    this.setState({
-      todos: [...this.state.todos.filter((todo) => !todo.completed)],
-    });
-  };
   openAddTodoDialog = (title) => {
     this.setState({ isAdd: true });
   };
   handleCloseAddTodo = () => {
     this.setState({ isAdd: false });
   };
-  openEditTodoDialog = () => {
-    this.setState({ isEdit: true });
-  };
-  handleCloseEditTodo = () => {
-    this.setState({ isEdit: false });
+
+  delAllCompletedTodos = () => {
+    axios.delete(`${this.BASE_URL}todos/completed/`, this.tokenConfig);
+    this.setState({
+      todos: [...this.state.todos.filter((todo) => !todo.completed)],
+    });
   };
 
   render() {
@@ -67,9 +61,6 @@ export class Todolist extends Component {
         <Todos
           todos={openTodos}
           showCompletedTodos={this.state.showCompletedTodos}
-          openEditTodoDialog={this.openEditTodoDialog}
-          isEdit={this.state.isEdit}
-          handleClose={this.handleCloseEditTodo}
         />
         <AddTodo
           onClick={this.openAddTodoDialog}
