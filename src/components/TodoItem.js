@@ -10,6 +10,8 @@ import EditTodoDialog from "./EditTodoDialog";
 import { connect } from "react-redux";
 import { markComplete, delTodo } from "../actions/todos";
 import { dateTimeToDate } from "../helpers/DateHelpers";
+import Tooltip from "@material-ui/core/Tooltip";
+import AddIcon from "@material-ui/icons/Add";
 
 export class Todoitem extends Component {
   state = {
@@ -62,15 +64,26 @@ export class Todoitem extends Component {
             }
           />
         </Box>
+        {/* <Box mx={0}>
+          <Tooltip title="Add subtaak">
+            <IconButton>
+              <AddIcon />
+            </IconButton>
+          </Tooltip>
+        </Box> */}
         <Box mx={0}>
-          <IconButton onClick={this.openEditTodoDialog}>
-            <EditIcon />
-          </IconButton>
+          <Tooltip title="Edit">
+            <IconButton onClick={this.openEditTodoDialog}>
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
         </Box>
         <Box ml={0}>
-          <IconButton onClick={() => this.props.delTodo(id)}>
-            <DeleteIcon />
-          </IconButton>
+          <Tooltip title="Delete">
+            <IconButton onClick={() => this.props.delTodo(id)}>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
           <EditTodoDialog
             open={this.state.isEdit}
             handleClose={this.handleClose}

@@ -13,7 +13,6 @@ export default function DatePickerField(props) {
     onChange(date);
   };
 
-  console.log(selectedDate);
   return (
     <Grid container justify="space-around">
       <KeyboardDatePicker

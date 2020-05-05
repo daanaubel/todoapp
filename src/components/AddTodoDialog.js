@@ -10,13 +10,10 @@ import { addTodo } from "../actions/todos";
 import { connect } from "react-redux";
 
 class AddTodoDialog extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: "",
-      dueDate: null,
-    };
-  }
+  state = {
+    title: "",
+    dueDate: null,
+  };
 
   onClick = () => {
     const newTodo = this.state;
@@ -45,7 +42,6 @@ class AddTodoDialog extends Component {
     });
   };
   render() {
-    console.log(this.state.dueDate);
     return (
       <Dialog
         open={this.props.open}
