@@ -9,6 +9,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import Todolist from "./components/Todolist";
 import store from "./store";
 import { loadUser } from "./actions/auth";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 class App extends Component {
   componentDidMount() {
@@ -16,19 +18,21 @@ class App extends Component {
   }
   render() {
     return (
-      <Provider store={store}>
-        <Router>
-          <CssBaseline />
-          <Header />
-          <Container maxWidth="sm">
-            <Switch>
-              <PrivateRoute exact path="/" component={Todolist} />
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/login" component={Login} />
-            </Switch>
-          </Container>
-        </Router>
-      </Provider>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <Provider store={store}>
+          <Router>
+            <CssBaseline />
+            <Header />
+            <Container maxWidth="sm">
+              <Switch>
+                <PrivateRoute exact path="/" component={Todolist} />
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/login" component={Login} />
+              </Switch>
+            </Container>
+          </Router>
+        </Provider>
+      </MuiPickersUtilsProvider>
     );
   }
 }

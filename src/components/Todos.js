@@ -4,7 +4,22 @@ import Todoitem from "./TodoItem";
 
 export class Todos extends Component {
   render() {
-    return this.props.todos.map((todo) => (
+    const sortedTodos = this.props.todos.sort((a, b) => {
+      if (!b.dueDate) {
+        return -1;
+      }
+      if (!a.dueDate) {
+        return 1;
+      }
+      if (a.dueDate < b.dueDate) {
+        return -1;
+      }
+      if (a.dueDate > b.dueDate) {
+        return 1;
+      }
+      return 0;
+    });
+    return sortedTodos.map((todo) => (
       <Todoitem
         key={todo.id}
         todo={todo}

@@ -29,6 +29,11 @@ class EditTodoDialog extends Component {
       todo: { ...this.state.todo, title: e.target.value },
     });
   };
+  setDate = (date) => {
+    this.setState({
+      todo: { ...this.state.todo, dueDate: date },
+    });
+  };
   handleClose = () => {
     this.props.handleClose();
   };
@@ -46,13 +51,18 @@ class EditTodoDialog extends Component {
               autoFocus
               margin="dense"
               id="editTodo"
-              label="edit todo"
+              label="Title"
               type="text"
               value={this.state.todo.title}
               onChange={this.onChange}
               fullWidth
             />
-            <DatePicker />
+            <DatePicker
+              onChange={this.setDate}
+              value={this.state.todo.dueDate}
+              label="Due Date"
+              helperText="Optional"
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="secondary">

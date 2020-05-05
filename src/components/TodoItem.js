@@ -5,10 +5,11 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import { Box } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import EditTodoDialog from "./EditTodoDialog";
 import { connect } from "react-redux";
 import { markComplete, delTodo } from "../actions/todos";
+import { dateTimeToDate } from "../helpers/DateHelpers";
 
 export class Todoitem extends Component {
   state = {
@@ -30,7 +31,7 @@ export class Todoitem extends Component {
     this.setState({ isEdit: false });
   };
   render() {
-    const { id, title, date, completed } = this.props.todo;
+    const { id, title, dueDate, completed } = this.props.todo;
     return (
       <Box
         onClick={this.onClick}
@@ -51,7 +52,14 @@ export class Todoitem extends Component {
                 color="primary"
               />
             }
-            label={title + date}
+            label={
+              <React.Fragment>
+                <Typography variant="body1">{title}</Typography>
+                <Typography variant="body2" color="textSecondary">
+                  {dueDate && dateTimeToDate(dueDate)}
+                </Typography>
+              </React.Fragment>
+            }
           />
         </Box>
         <Box mx={0}>

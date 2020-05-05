@@ -44,7 +44,9 @@ export default function (state = initialState, action) {
       return {
         ...state,
         todos: state.todos.map((todo) =>
-          todo.id === action.payload.id ? { ...action.payload } : { ...todo }
+          todo.id === action.payload.id
+            ? { ...action.payload }
+            : { ...todo, ...Date }
         ),
       };
     default:
