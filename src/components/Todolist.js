@@ -26,15 +26,9 @@ export class Todolist extends Component {
   }
 
   toggleCompletedTodos = () => {
-    if (this.state.showCompletedTodos === true) {
-      this.setState({
-        showCompletedTodos: false,
-      });
-    } else {
-      this.setState({
-        showCompletedTodos: true,
-      });
-    }
+    this.setState({
+      showCompletedTodos: !this.state.showCompletedTodos,
+    });
   };
 
   openAddTodoDialog = (title) => {
@@ -47,15 +41,27 @@ export class Todolist extends Component {
   delAllCompletedTodos = () => {
     axios.delete(`${this.BASE_URL}todos/completed/`, this.tokenConfig);
     this.setState({
-      todos: [...this.state.todos.filter((todo) => !todo.completed)],
+      todos: [...this.props.todos.filter((todo) => !todo.completed)],
     });
   };
 
   render() {
     if (!this.props.todos) return null;
-    const openTodos = this.props.todos.filter((todo) => !todo.completed);
-    const completedTodos = this.props.todos.filter((todo) => todo.completed);
-    const existCompletedTodos = this.props.todos.some((todo) => todo.completed);
+    const parentTodos = this.props.todos.filter((todo) => !todo.parentTodo);
+    let openTodos = parentTodos.filter((todo) => !todo.completed);
+    const openTodoChildren = this.props.todos.filter((todo) =>
+      openTodos.some((parentTodo) => parentTodo.id === todo.parentTodo)
+    );
+    openTodos = openTodos.concat(openTodoChildren);
+    let completedTodos = parentTodos.filter((todo) => todo.completed);
+    const completedTodosChildren = this.props.todos.filter((todo) =>
+      completedTodos.some((parentTodo) => parentTodo.id === todo.parentTodo)
+    );
+    completedTodos = completedTodos.concat(completedTodosChildren);
+    const existCompletedTodos = this.props.todos.some(
+      (todo) => todo.completed && !todo.parentTodo
+    );
+
     return (
       <Box display="flex" flexDirection="column" alignItems="center">
         <Todos

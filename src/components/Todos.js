@@ -4,7 +4,8 @@ import Todoitem from "./TodoItem";
 
 export class Todos extends Component {
   render() {
-    const sortedTodos = this.props.todos.sort((a, b) => {
+    const withoutSubtask = this.props.todos.filter((todo) => !todo.parentTodo);
+    const sortedTodos = withoutSubtask.sort((a, b) => {
       if (!b.dueDate) {
         return -1;
       }
@@ -20,11 +21,16 @@ export class Todos extends Component {
       return 0;
     });
     return sortedTodos.map((todo) => (
-      <Todoitem
-        key={todo.id}
-        todo={todo}
-        handleClose={() => this.props.handleClose()}
-      />
+      <React.Fragment>
+        <Todoitem
+          key={todo.id}
+          todo={todo}
+          handleClose={() => this.props.handleClose()}
+          subtasks={this.props.todos.filter(
+            (subtask) => subtask.parentTodo === todo.id
+          )}
+        />
+      </React.Fragment>
     ));
   }
 }

@@ -10,3 +10,5 @@ export const LOGOUT_FAIL = "LOGOUT_FAIL";
 export const DEL_TODO = "DEL_TODO";
 export const ADD_TODO = "ADD_TODO";
 export const EDIT_TODO = "EDIT_TODO";
+export const ADD_SUBTASK = "ADD_SUBTASK";
+export const Del_All_COMPLETED = "Del_All_COMPLETED";

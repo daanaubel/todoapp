@@ -5,6 +5,7 @@ import {
   DEL_TODO,
   ADD_TODO,
   EDIT_TODO,
+  Del_All_COMPLETED,
 } from "./types";
 
 const tokenConfig = (token) => {
@@ -67,6 +68,15 @@ export const editTodo = (newTodo) => (dispatch, getState) => {
     dispatch({
       type: EDIT_TODO,
       payload: res.data,
+    });
+  });
+};
+export const delAllCompletedTodos = () => (dispatch, getState) => {
+  console.log("del");
+  const token = getState().auth.token;
+  axios.delete(`todos/completed/`, tokenConfig(token)).then((res) => {
+    dispatch({
+      type: Del_All_COMPLETED,
     });
   });
 };

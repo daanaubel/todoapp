@@ -4,6 +4,7 @@ import {
   DEL_TODO,
   ADD_TODO,
   EDIT_TODO,
+  Del_All_COMPLETED,
 } from "../actions/types.js";
 
 const initialState = {
@@ -48,6 +49,11 @@ export default function (state = initialState, action) {
             ? { ...action.payload }
             : { ...todo, ...Date }
         ),
+      };
+    case Del_All_COMPLETED:
+      return {
+        ...state,
+        todos: [...state.todos.filter((todo) => !todo.completed)],
       };
     default:
       return state;

@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
+import { connect } from "react-redux";
+import { delAllCompletedTodos } from "../actions/todos";
+
 export class DelAllTodo extends Component {
   render() {
     return (
       <Button
         style={{ marginTop: "5px" }}
-        onClick={this.props.onClick}
+        onClick={() => this.props.delAllCompletedTodos()}
         variant="contained"
         color="secondary"
       >
@@ -14,10 +17,5 @@ export class DelAllTodo extends Component {
     );
   }
 }
-// const buttonStyle = {
-//   borderRadius: "5px",
-//   background: "red",
-//   color: "black",
-// };
 
-export default DelAllTodo;
+export default connect(null, { delAllCompletedTodos })(DelAllTodo);
